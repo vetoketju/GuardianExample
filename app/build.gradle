@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.villevalta.myapplication"
+        minSdkVersion 14
+        targetSdkVersion 25
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
+}
+
+
+
+ext {
+    supportVersio = '25.3.1'
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.3.0'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+
+    compile "com.android.support:design:$supportVersio"
+    compile "com.android.support:appcompat-v7:$supportVersio"
+    compile "com.android.support:support-v4:$supportVersio"
+
+    compile "com.android.support:recyclerview-v7:$supportVersio"
+    compile "com.android.support:cardview-v7:$supportVersio"
+
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}
