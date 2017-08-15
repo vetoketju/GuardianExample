@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     private Articles articles;
 
-    String hakusana = "spaceX";
+    String hakusana = "android";
 
     Button tyhjenna;
 
@@ -49,10 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
 
     @Override
     protected void onResume() {
@@ -61,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         articles = realm.where(Articles.class).equalTo("id", hakusana).findFirst();
 
+        // Articles objektia ei löytynyt realmista, luodaan se:
         if(articles == null){
             articles = new Articles();
             articles.setId(hakusana);
@@ -70,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         }
 
-        if(articles.getItems().size() == 0){
+        if(articles.getCurrentPage() <= 1){
             getPage();
         }else{
-
-            Log.d(TAG, "Articles from realm database: ");
+            // artikkelit tietokannasta:
+            Log.i(TAG, "Articles from realm database: haetut sivut: " + articles.getCurrentPage() + " Last updated=" + articles.getLastUpdated());
             for (Article article : articles.getItems()) {
                 Log.d(TAG, "item: " + article.getWebTitle());
             }
@@ -89,16 +87,16 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Page> call, Response<Page> response) {
                 List<Article> results = response.body().getResponse().getResults();
 
-                Log.d(TAG, "Articles from web: ");
+                Log.i(TAG, "Articles from web: ");
                 for (Article result : results) {
                     Log.d(TAG, "item: " + result.getWebTitle());
                 }
 
                 realm.beginTransaction();
-                articles.setCurrentPage(articles.getCurrentPage() + 1);
-                articles.getItems().addAll(results);
-                long lastUpdated = new Date().getTime();
-                articles.setLastUpdated(lastUpdated);
+                    articles.setCurrentPage(articles.getCurrentPage() + 1);
+                    articles.getItems().addAll(results);
+                    long lastUpdated = new Date().getTime();
+                    articles.setLastUpdated(lastUpdated);
                 realm.commitTransaction();
             }
 
