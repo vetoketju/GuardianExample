@@ -21,15 +21,16 @@ public class GuardianApiService {
 
     public GuardianApiService() {
 
-
-
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
 
         client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .connectTimeout(1, TimeUnit.MINUTES).build();
+                .writeTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .build();
 
         serviceInterface = new Retrofit.Builder()
                 .baseUrl("https://content.guardianapis.com/")

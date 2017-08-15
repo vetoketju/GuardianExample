@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.villevalta.myapplication.network.GuardianApiService;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by villevalta on 8/14/17.
  */
@@ -21,8 +24,19 @@ public class GuardianApp extends MultiDexApplication {
         super.onCreate();
         instance = this;
         apiService = new GuardianApiService();
-        Log.d(TAG, "onCreate: Nyt kutsuttiin Application.onCreatea()");
+
+        initRealm();
+
     }
+
+    private void initRealm(){
+        Realm.init(this);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfig);
+    }
+
 
     public static GuardianApp getInstance(){
         return instance;
