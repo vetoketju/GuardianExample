@@ -93,10 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 realm.beginTransaction();
-                    articles.setCurrentPage(articles.getCurrentPage() + 1);
-                    articles.getItems().addAll(results);
-                    long lastUpdated = new Date().getTime();
-                    articles.setLastUpdated(lastUpdated);
+
+                articles.setCurrentPage(articles.getCurrentPage() + 1);
+                articles.getItems().addAll(results);
+                long lastUpdated = new Date().getTime();
+                articles.setLastUpdated(lastUpdated);
+
                 realm.commitTransaction();
             }
 

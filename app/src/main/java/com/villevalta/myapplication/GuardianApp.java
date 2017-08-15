@@ -26,7 +26,6 @@ public class GuardianApp extends MultiDexApplication {
         apiService = new GuardianApiService();
 
         initRealm();
-
     }
 
     private void initRealm(){
