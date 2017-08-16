@@ -2,6 +2,9 @@ package com.villevalta.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     String hakusana = "android";
 
     Button tyhjenna;
+    RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +41,23 @@ public class MainActivity extends AppCompatActivity {
 
         tyhjenna = (Button) findViewById(R.id.clear_db);
 
+
+
+
+        recycler = (RecyclerView) findViewById(R.id.recycler);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
+        recycler.setLayoutManager(manager);
+
+
+
+
+
         tyhjenna.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(articles != null && realm !=null){
                     realm.beginTransaction();
-                    articles.setItems(new RealmList<Article>());
-                    articles.setCurrentPage(1);
-                    articles.setLastUpdated(0);
+                    articles.reset();
                     realm.commitTransaction();
                 }
             }
@@ -109,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
     @Override
     protected void onPause() {

@@ -36,7 +36,8 @@ public class GuardianApiService {
                 .baseUrl("https://content.guardianapis.com/")
                 .client(client)
                 .addConverterFactory(JacksonConverterFactory.create())
-                .build().create(GuardianApiServiceInterface.class);
+                .build()
+                .create(GuardianApiServiceInterface.class);
 
     }
 

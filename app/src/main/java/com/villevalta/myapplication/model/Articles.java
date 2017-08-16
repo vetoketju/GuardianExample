@@ -1,7 +1,5 @@
 package com.villevalta.myapplication.model;
 
-import java.util.Date;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -17,6 +15,16 @@ public class Articles extends RealmObject {
     private int currentPage = 1;
     private RealmList<Article> items = new RealmList<>();
     private long lastUpdated;
+
+    public Articles(){
+
+    }
+
+    public void reset(){
+        currentPage = 1;
+        items.clear();
+        lastUpdated = 0;
+    }
 
     public String getId() {
         return id;
