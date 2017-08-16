@@ -29,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     private Articles articles;
 
-    String hakusana = "android";
+    String hakusana = "trump";
 
     Button tyhjenna;
     RecyclerView recycler;
+    ArticlesAdapter adapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         tyhjenna = (Button) findViewById(R.id.clear_db);
 
-
-
-
+        adapter = new ArticlesAdapter();
         recycler = (RecyclerView) findViewById(R.id.recycler);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recycler.setLayoutManager(manager);
-
-
-
+        recycler.setAdapter(adapter);
 
 
         tyhjenna.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +90,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        adapter.initialize(articles);
+
     }
 
     private void getPage(){
 
+        adapter.setIsLoading(true);
         GuardianApp.getInstance().getApiService().search(hakusana, articles.getCurrentPage()).enqueue(new Callback<Page>() {
             @Override
             public void onResponse(Call<Page> call, Response<Page> response) {
+                adapter.setIsLoading(false);
+
                 List<Article> results = response.body().getResponse().getResults();
 
                 Log.i(TAG, "Articles from web: ");
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Page> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
+                adapter.setIsLoading(false);
             }
         });
 
