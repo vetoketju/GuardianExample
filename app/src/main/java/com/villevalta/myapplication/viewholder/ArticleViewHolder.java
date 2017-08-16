@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.villevalta.myapplication.R;
 
+
 /**
  * Created by villevalta on 8/16/17.
  */
@@ -13,10 +14,12 @@ import com.villevalta.myapplication.R;
 public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
     public TextView titleView;
+    public TextView urlView;
 
     public ArticleViewHolder(View itemView) {
         super(itemView);
         titleView = (TextView) itemView.findViewById(R.id.title);
+        urlView = (TextView) itemView.findViewById(R.id.url);
     }
 
 

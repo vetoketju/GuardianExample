@@ -1,5 +1,6 @@
 package com.villevalta.myapplication;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,9 +58,19 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if(holder instanceof ArticleViewHolder){
             Article article = items.getItems().get(position);
+            if(position % 2 == 0){
+                holder.itemView.setBackgroundColor(Color.LTGRAY);
+            }
             ((ArticleViewHolder)holder).titleView.setText(article.getWebTitle());
+            ((ArticleViewHolder)holder).urlView.setText(article.getWebUrl());
         }
 
+    }
+
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        holder.itemView.setBackgroundColor(Color.WHITE);
+        super.onViewRecycled(holder);
     }
 
     public void setIsLoading(boolean currentlyLoading){
