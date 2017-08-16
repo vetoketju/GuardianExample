@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.villevalta.myapplication.model.Article;
 import com.villevalta.myapplication.model.Articles;
 import com.villevalta.myapplication.model.Page;
+import com.villevalta.myapplication.view.MyRecyclerView;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyRecyclerView.LoadMoreListener{
 
     String TAG = "MainActivity";
 
@@ -32,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     String hakusana = "trump";
 
     Button tyhjenna;
-    RecyclerView recycler;
+    MyRecyclerView recycler;
     ArticlesAdapter adapter;
+
+    private boolean isLoading;
 
 
 
@@ -45,10 +48,12 @@ public class MainActivity extends AppCompatActivity {
         tyhjenna = (Button) findViewById(R.id.clear_db);
 
         adapter = new ArticlesAdapter();
-        recycler = (RecyclerView) findViewById(R.id.recycler);
+        recycler = (MyRecyclerView) findViewById(R.id.recycler);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recycler.setLayoutManager(manager);
         recycler.setAdapter(adapter);
+
+        recycler.setLoadMoreListener(this);
 
 
         tyhjenna.setOnClickListener(new View.OnClickListener() {
@@ -96,11 +101,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void getPage(){
 
+        isLoading = true;
         adapter.setIsLoading(true);
         GuardianApp.getInstance().getApiService().search(hakusana, articles.getCurrentPage()).enqueue(new Callback<Page>() {
             @Override
             public void onResponse(Call<Page> call, Response<Page> response) {
                 adapter.setIsLoading(false);
+                isLoading = false;
 
                 List<Article> results = response.body().getResponse().getResults();
 
@@ -123,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Page> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 adapter.setIsLoading(false);
+                isLoading = false;
             }
         });
 
@@ -137,5 +145,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onPause();
+    }
+
+    @Override
+    public void shouldLoadMore() {
+        if(!isLoading){
+            Log.d(TAG, "shouldLoadMore: Starting to load more");
+            getPage();
+        }
     }
 }
