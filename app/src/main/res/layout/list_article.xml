@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:textSize="24sp"
-        android:textColor="#000"
-        android:layout_gravity="center_horizontal"
-        tools:text="Lorem ipsum"
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <data>
 
-    <ImageView
-        android:src="@drawable/ic_pets_black_24dp"
-        android:layout_gravity="center"
-        android:layout_width="64dp"
-        android:layout_height="64dp" />
+        <variable
+            name="articleItem"
+            type="com.villevalta.myapplication.model.Article"/>
 
-    <TextView
-        android:maxLines="1"
-        android:ellipsize="end"
-        tools:text="http://guardian.com/news/1/kauhean_pitkä_urli_joka_ei_mahdu_yhdelleRiville"
-        android:id="@+id/url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <import type="android.view.View"/>
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground">
+
+        <TextView
+            android:text="@{articleItem.webTitle}"
+            android:textSize="24sp"
+            android:textColor="#000"
+            android:layout_gravity="center_horizontal"
+            tools:text="Lorem Ipsum Title"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:src="@drawable/ic_pets_black_24dp"
+            android:layout_gravity="center"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+
+        <TextView
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="@{articleItem.webUrl}"
+            tools:text="http://guardian.com/news/1/kauhean_pitkä_urli_joka_ei_mahdu_yhdelleRiville"
+            android:id="@+id/url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>

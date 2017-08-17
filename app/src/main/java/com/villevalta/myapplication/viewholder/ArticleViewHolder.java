@@ -1,10 +1,8 @@
 package com.villevalta.myapplication.viewholder;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
 
-import com.villevalta.myapplication.R;
+import com.villevalta.myapplication.databinding.ListArticleBinding;
 
 
 /**
@@ -13,13 +11,11 @@ import com.villevalta.myapplication.R;
 
 public class ArticleViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView titleView;
-    public TextView urlView;
+    public ListArticleBinding binding;
 
-    public ArticleViewHolder(View itemView) {
-        super(itemView);
-        titleView = (TextView) itemView.findViewById(R.id.title);
-        urlView = (TextView) itemView.findViewById(R.id.url);
+    public ArticleViewHolder(ListArticleBinding binding) {
+        super(binding.getRoot());
+        this.binding = binding;
     }
 
 

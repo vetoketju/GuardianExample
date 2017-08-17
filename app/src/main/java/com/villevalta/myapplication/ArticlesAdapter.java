@@ -2,10 +2,12 @@ package com.villevalta.myapplication;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.villevalta.myapplication.databinding.ListArticleBinding;
 import com.villevalta.myapplication.model.Article;
 import com.villevalta.myapplication.model.Articles;
 import com.villevalta.myapplication.viewholder.ArticleViewHolder;
@@ -43,7 +45,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if(viewType == KEY_POSITION_ITEM){
             View view = inflater.inflate(R.layout.list_article, parent, false);
-            return new ArticleViewHolder(view);
+            ListArticleBinding binding = ListArticleBinding.inflate(inflater, parent, false);
+            return new ArticleViewHolder(binding);
         }else if(viewType == KEY_POSITION_LOADING){
             View view = inflater.inflate(R.layout.list_loading, parent, false);
             return new LoadingViewHolder(view);
@@ -61,8 +64,11 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(position % 2 == 0){
                 holder.itemView.setBackgroundColor(Color.LTGRAY);
             }
-            ((ArticleViewHolder)holder).titleView.setText(article.getWebTitle());
-            ((ArticleViewHolder)holder).urlView.setText(article.getWebUrl());
+
+            ((ArticleViewHolder)holder).binding.setArticleItem(article);
+
+
+            //Linkify.addLinks(((ArticleViewHolder)holder).urlView, Linkify.ALL);
         }
 
     }
