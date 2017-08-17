@@ -3,6 +3,8 @@ package com.villevalta.myapplication;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 import com.villevalta.myapplication.network.GuardianApiService;
 
 import io.realm.Realm;
@@ -24,6 +26,11 @@ public class GuardianApp extends MultiDexApplication {
         super.onCreate();
         instance = this;
         apiService = new GuardianApiService();
+
+
+        // Picasson logging enabled
+        Picasso picasso = new Picasso.Builder(this).loggingEnabled(true).indicatorsEnabled(true).build();
+        Picasso.setSingletonInstance(picasso);
 
         initRealm();
     }

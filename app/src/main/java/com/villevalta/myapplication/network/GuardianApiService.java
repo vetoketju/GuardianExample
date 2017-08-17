@@ -45,6 +45,7 @@ public class GuardianApiService {
         return serviceInterface.search(searchQuery, "test", page);
     }
 
-
-
+    public OkHttpClient getClient() {
+        return client;
+    }
 }

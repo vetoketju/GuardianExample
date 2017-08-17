@@ -9,7 +9,14 @@
             name="articleItem"
             type="com.villevalta.myapplication.model.Article"/>
 
+        <variable
+            name="kasvi"
+            type="String" />
+
+
         <import type="android.view.View"/>
+
+        <import type="android.graphics.Color"/>
 
     </data>
 
@@ -22,9 +29,9 @@
         android:foreground="?attr/selectableItemBackground">
 
         <TextView
-            android:text="@{articleItem.webTitle}"
+            android:text='@{articleItem.sectionId +" --> "+ articleItem.webTitle ,default="perus title"}'
             android:textSize="24sp"
-            android:textColor="#000"
+            android:textColor='@{articleItem.getColor()}'
             android:layout_gravity="center_horizontal"
             tools:text="Lorem Ipsum Title"
             android:id="@+id/title"
@@ -32,13 +39,8 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:src="@drawable/ic_pets_black_24dp"
-            android:layout_gravity="center"
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
-
-        <ImageView
-            app:kuvaurl="@{articleItem.getKuvaUrl()}"
+            app:kuvaurl="@{articleItem.getKuvaUrl() + kasvi}"
+            app:kaannos='@{articleItem.sectionId.equals("australia-news") ? 180.0f : 0 }'
             android:layout_width="match_parent"
             android:layout_height="128dp" />
 

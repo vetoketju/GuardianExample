@@ -16,6 +16,9 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder {
     public ArticleViewHolder(ListArticleBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
+
+        binding.setKasvi("palmu");
+
     }
 
 

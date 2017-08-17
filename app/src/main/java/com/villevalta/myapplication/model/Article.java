@@ -1,5 +1,7 @@
 package com.villevalta.myapplication.model;
 
+import android.graphics.Color;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.realm.RealmObject;
@@ -18,11 +20,22 @@ public class Article extends RealmObject{
     private String webTitle;
     private boolean isHosted;
     private String webUrl;
+    private String sectionId;
 
     public String getKuvaUrl(){
+        return "https://robohash.org/" + id.hashCode();
+    }
 
-        return "https://robohash.org/" + webTitle;
+    public int getColor(){
+        return Color.RED;
+    }
 
+    public String getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(String sectionId) {
+        this.sectionId = sectionId;
     }
 
     public String getId() {
