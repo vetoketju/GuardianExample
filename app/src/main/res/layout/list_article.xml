@@ -37,6 +37,11 @@
             android:layout_width="64dp"
             android:layout_height="64dp" />
 
+        <ImageView
+            app:kuvaurl="@{articleItem.getKuvaUrl()}"
+            android:layout_width="match_parent"
+            android:layout_height="128dp" />
+
         <TextView
             android:maxLines="1"
             android:ellipsize="end"

@@ -19,6 +19,12 @@ public class Article extends RealmObject{
     private boolean isHosted;
     private String webUrl;
 
+    public String getKuvaUrl(){
+
+        return "https://robohash.org/" + webTitle;
+
+    }
+
     public String getId() {
         return id;
     }

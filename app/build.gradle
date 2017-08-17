@@ -51,6 +51,9 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
     compile "com.android.support:design:$supportVersio"
     compile "com.android.support:appcompat-v7:$supportVersio"
     compile "com.android.support:support-v4:$supportVersio"
