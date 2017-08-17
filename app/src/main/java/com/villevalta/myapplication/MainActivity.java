@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerView.Lo
     private Realm realm;
     private Articles articles;
 
-    String hakusana = "trump";
+    String hakusana = "android";
 
     Button tyhjenna;
     MyRecyclerView recycler;

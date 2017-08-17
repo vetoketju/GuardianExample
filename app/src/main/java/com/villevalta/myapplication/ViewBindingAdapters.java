@@ -1,7 +1,9 @@
 package com.villevalta.myapplication;
 
 import android.databinding.BindingAdapter;
+import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -25,6 +27,15 @@ public class ViewBindingAdapters {
                 .placeholder(R.drawable.ic_directions_boat_black_24dp)
                 .rotate(kaannos)
                 .into(imageView);
+
+    }
+
+    @BindingAdapter("weburl")
+    public static void loadWeb(WebView webview, String url){
+
+        if(!TextUtils.isEmpty(url)){
+            webview.loadUrl(url);
+        }
 
     }
 
