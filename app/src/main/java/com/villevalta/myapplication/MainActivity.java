@@ -1,6 +1,8 @@
 package com.villevalta.myapplication;
 
 import android.graphics.Color;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,138 +27,31 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements MyRecyclerView.LoadMoreListener{
+public class MainActivity extends AppCompatActivity{
 
     String TAG = "MainActivity";
 
-    private Realm realm;
-    private Articles articles;
-
-    String hakusana = "android";
-
-    SwipeRefreshLayout swiper;
-    MyRecyclerView recycler;
-    ArticlesAdapter adapter;
-
-    private boolean isLoading;
-
-
+    TabLayout tabs;
+    ViewPager pager;
+    PagerTabsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        adapter = new ArticlesAdapter();
-        recycler = (MyRecyclerView) findViewById(R.id.recycler);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
-        recycler.setLayoutManager(manager);
-        recycler.setAdapter(adapter);
+        tabs = (TabLayout) findViewById(R.id.tabs);
+        pager = (ViewPager) findViewById(R.id.pager);
 
-        recycler.setLoadMoreListener(this);
+        adapter = new PagerTabsAdapter(getSupportFragmentManager());
 
-        swiper = (SwipeRefreshLayout) findViewById(R.id.swiper);
+        pager.setAdapter(adapter);
 
-        swiper.setColorSchemeColors(Color.CYAN);
-        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if(articles != null && realm !=null){
-                    realm.beginTransaction();
-                    articles.reset();
-                    realm.commitTransaction();
-                }
-                getPage();
-                swiper.setRefreshing(false);
-            }
-        });
+        tabs.setupWithViewPager(pager);
+
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        realm = Realm.getDefaultInstance();
-
-        articles = realm.where(Articles.class).equalTo("id", hakusana).findFirst();
-
-        // Articles objektia ei löytynyt realmista, luodaan se:
-        if(articles == null){
-            articles = new Articles();
-            articles.setId(hakusana);
-
-            realm.beginTransaction();
-            articles = realm.copyToRealm(articles);
-            realm.commitTransaction();
-        }
-
-        if(articles.getCurrentPage() <= 1){
-            getPage();
-        }else{
-            // artikkelit tietokannasta:
-            Log.i(TAG, "Articles from realm database: haetut sivut: " + articles.getCurrentPage() + " Last updated=" + articles.getLastUpdated());
-            for (Article article : articles.getItems()) {
-                Log.d(TAG, "item: " + article.getWebTitle());
-            }
-        }
-
-        adapter.initialize(articles);
-
-    }
-
-    private void getPage(){
-
-        isLoading = true;
-        adapter.setIsLoading(true);
-        GuardianApp.getInstance().getApiService().search(hakusana, articles.getCurrentPage()).enqueue(new Callback<Page>() {
-            @Override
-            public void onResponse(Call<Page> call, Response<Page> response) {
-                adapter.setIsLoading(false);
-                isLoading = false;
-
-                List<Article> results = response.body().getResponse().getResults();
-
-                Log.i(TAG, "Articles from web: ");
-                for (Article result : results) {
-                    Log.d(TAG, "item: " + result.getWebTitle());
-                }
-
-                realm.beginTransaction();
-
-                articles.setCurrentPage(articles.getCurrentPage() + 1);
-                articles.getItems().addAll(results);
-                long lastUpdated = new Date().getTime();
-                articles.setLastUpdated(lastUpdated);
-
-                realm.commitTransaction();
-            }
-
-            @Override
-            public void onFailure(Call<Page> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
-                adapter.setIsLoading(false);
-                isLoading = false;
-            }
-        });
-
-    }
-
-    @Override
-    protected void onPause() {
-
-        if(realm != null && !realm.isClosed()){
-            realm.close();
-        }
 
 
-        super.onPause();
-    }
-
-    @Override
-    public void shouldLoadMore() {
-        if(!isLoading){
-            Log.d(TAG, "shouldLoadMore: Starting to load more");
-            getPage();
-        }
-    }
 }
