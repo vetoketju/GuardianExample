@@ -20,45 +20,54 @@
 
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground">
+    <android.support.v7.widget.CardView
+        android:layout_margin="16dp"
+        app:contentPadding="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:text='@{articleItem.sectionId +" --> "+ articleItem.webTitle ,default="perus title"}'
-            android:textSize="24sp"
-            android:textColor='@{articleItem.getColor()}'
-            android:layout_gravity="center_horizontal"
-            tools:text="Lorem Ipsum Title"
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <ImageView
-            app:kuvaurl="@{articleItem.getKuvaUrl() + kasvi}"
-            app:kaannos='@{articleItem.sectionId.equals("australia-news") ? 180.0f : 0 }'
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="128dp" />
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground">
 
-        <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@{articleItem.webUrl}"
-            tools:text="http://guardian.com/news/1/kauhean_pitkä_urli_joka_ei_mahdu_yhdelleRiville"
-            android:id="@+id/url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:text='@{articleItem.sectionId +" --> "+ articleItem.webTitle ,default="perus title"}'
+                android:textSize="24sp"
+                android:textColor='@{articleItem.getColor()}'
+                android:layout_gravity="center_horizontal"
+                tools:text="Lorem Ipsum Title"
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <WebView
-            app:weburl="@{articleItem.webUrl}"
-            android:layout_width="match_parent"
-            android:layout_height="128dp"/>
+            <ImageView
+                app:kuvaurl="@{articleItem.getKuvaUrl() + kasvi}"
+                app:kaannos='@{articleItem.sectionId.equals("australia-news") ? 180.0f : 0 }'
+                android:layout_width="match_parent"
+                android:layout_height="128dp" />
 
+            <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{articleItem.webUrl}"
+                tools:text="http://guardian.com/news/1/kauhean_pitkä_urli_joka_ei_mahdu_yhdelleRiville"
+                android:id="@+id/url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <WebView
+                app:weburl="@{articleItem.webUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="128dp"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </layout>

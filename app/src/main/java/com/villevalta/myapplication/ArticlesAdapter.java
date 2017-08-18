@@ -61,9 +61,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if(holder instanceof ArticleViewHolder){
             Article article = items.getItems().get(position);
-            if(position % 2 == 0){
-                holder.itemView.setBackgroundColor(Color.LTGRAY);
-            }
+
 
             ((ArticleViewHolder)holder).binding.setArticleItem(article);
 
@@ -75,7 +73,7 @@ public class ArticlesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
-        holder.itemView.setBackgroundColor(Color.WHITE);
+        // Reset views here if needed
         super.onViewRecycled(holder);
     }
 
