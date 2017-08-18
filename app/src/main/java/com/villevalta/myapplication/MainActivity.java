@@ -1,5 +1,7 @@
 package com.villevalta.myapplication;
 
+import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerView.Lo
 
     String hakusana = "android";
 
-    Button tyhjenna;
+    SwipeRefreshLayout swiper;
     MyRecyclerView recycler;
     ArticlesAdapter adapter;
 
@@ -45,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerView.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tyhjenna = (Button) findViewById(R.id.clear_db);
-
         adapter = new ArticlesAdapter();
         recycler = (MyRecyclerView) findViewById(R.id.recycler);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
@@ -55,17 +55,22 @@ public class MainActivity extends AppCompatActivity implements MyRecyclerView.Lo
 
         recycler.setLoadMoreListener(this);
 
+        swiper = (SwipeRefreshLayout) findViewById(R.id.swiper);
 
-        tyhjenna.setOnClickListener(new View.OnClickListener() {
+        swiper.setColorSchemeColors(Color.CYAN);
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
+            public void onRefresh() {
                 if(articles != null && realm !=null){
                     realm.beginTransaction();
                     articles.reset();
                     realm.commitTransaction();
                 }
+                getPage();
+                swiper.setRefreshing(false);
             }
         });
+
     }
 
     @Override
